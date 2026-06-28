@@ -33,26 +33,85 @@ const getCommentByAuthorId = catchAsync(
   },
 );
 
-const getCommentByCommentId = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+const getCommentByPostId = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { postId } = req.params;
+
+    const result = await commentService.getCommentByPostId(postId as string);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Comment retrieved Successfully",
+      data: result,
+    });
+  },
 );
 
 const updateComment = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { commentId } = req.params;
+    const authorId = user?.id as string;
+    const payload = req.body;
+    const result = await commentService.updateComment(
+      commentId as string,
+      payload,
+      authorId,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Comment updated successfully",
+      data: result,
+    });
+  },
 );
 
 const deleteComment = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { commentId } = req.params;
+    const payload = req.body;
+    const authorId = user?.id as string;
+
+    const result = await commentService.deleteComment(
+      commentId as string,
+      payload,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Comment deleted successfully",
+      data: result,
+    });
+  },
 );
 
 const moderateComment = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { commentId } = req.params;
+    const payload = req.body;
+
+    const result = await commentService.moderateComment(
+      commentId as string,
+      payload,
+    );
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Comment Moderated Successfully",
+      data: result,
+    });
+  },
 );
 
 export const commentController = {
   createComment,
   getCommentByAuthorId,
-  getCommentByCommentId,
+  getCommentByPostId,
   updateComment,
   deleteComment,
   moderateComment,
