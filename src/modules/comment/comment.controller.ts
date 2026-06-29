@@ -77,7 +77,7 @@ const deleteComment = catchAsync(
 
     const result = await commentService.deleteComment(
       commentId as string,
-      payload,
+      authorId,
     );
 
     sendResponse(res, {
