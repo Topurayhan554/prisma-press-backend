@@ -13,7 +13,7 @@ const createCheckOutSession = async (userId: string) => {
       },
     });
 
-    // old subscriber
+    // old subscriberkfkjdsfkjfkkafjksfksdjfksdajfksdjfkjfklsd
     let stripeCustomerId = user.subscription?.stripeCustomerId;
     if (!stripeCustomerId) {
       // new subscriber
